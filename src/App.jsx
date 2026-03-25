@@ -243,7 +243,7 @@ function PoseCard({ pose }) {
             {pose.name}
             {pose.animations && (
               <span style={{ marginLeft: 6, fontSize: 10, color: "#A0522D", verticalAlign: "middle" }}>
-                \u25B6
+                {"\u25B6"}
               </span>
             )}
           </div>
@@ -271,7 +271,7 @@ function PoseCard({ pose }) {
             transform: expanded ? "rotate(90deg)" : "none",
             transition: "transform 0.2s",
           }}>
-            \u203A
+            {"\u203A"}
           </span>
         </div>
       </div>
@@ -302,7 +302,7 @@ function PoseCard({ pose }) {
               padding: "8px 10px", borderRadius: 6, marginTop: 4, lineHeight: 1.5,
               borderLeft: "3px solid rgba(139,69,19,0.3)",
             }}>
-              \u26A1 {pose.safety}
+              {"\u26A1"} {pose.safety}
             </div>
           )}
         </div>
@@ -338,7 +338,7 @@ function Section({ section, tierColor }) {
             fontSize: 18, transform: open ? "rotate(90deg)" : "none",
             transition: "transform 0.2s",
           }}>
-            \u203A
+            {"\u203A"}
           </span>
         </div>
       </div>
@@ -465,7 +465,7 @@ function TimerMode({ tier, onExit }) {
         <button onClick={onExit} style={{
           background: "none", border: "none", fontSize: 20, color: "#999",
           cursor: "pointer", padding: "4px 8px",
-        }}>\u2715</button>
+        }}>{"\u2715"}</button>
       </div>
 
       <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "8px 20px" }}>
@@ -513,7 +513,7 @@ function TimerMode({ tier, onExit }) {
               padding: "8px 10px", borderRadius: 6, marginTop: 8, lineHeight: 1.5,
               borderLeft: "3px solid rgba(139,69,19,0.3)",
             }}>
-              \u26A1 {pose.safety}
+              {"\u26A1"} {pose.safety}
             </div>
           )}
         </div>
@@ -524,7 +524,7 @@ function TimerMode({ tier, onExit }) {
           <button onClick={() => skip(-1)} disabled={idx === 0} style={{
             background: "none", border: "none", fontSize: 22, cursor: "pointer",
             color: idx === 0 ? "#ddd" : "#888", padding: 8,
-          }}>\u23EE</button>
+          }}>{"\u23EE"}</button>
           <button onClick={togglePlay} style={{
             width: 56, height: 56, borderRadius: "50%", border: "none",
             background: tier.color, color: "white", fontSize: 20, cursor: "pointer",
@@ -534,7 +534,7 @@ function TimerMode({ tier, onExit }) {
           <button onClick={() => skip(1)} disabled={idx >= allPoses.length - 1} style={{
             background: "none", border: "none", fontSize: 22, cursor: "pointer",
             color: idx >= allPoses.length - 1 ? "#ddd" : "#888", padding: 8,
-          }}>\u23ED</button>
+          }}>{"\u23ED"}</button>
         </div>
         <div style={{ textAlign: "center", fontSize: 12, color: "#999", marginBottom: 8 }}>
           Pose {idx + 1} of {allPoses.length}
@@ -559,9 +559,9 @@ function AnimationGuide() {
   return (
     <div style={{ padding: "0 16px 32px" }}>
       <div style={{ fontSize: 12, color: "#999", textAlign: "center", marginBottom: 12 }}>
-        <span style={{ color: "#2D2D2D", fontWeight: 600 }}>\u25CF</span> Active{" "}
-        <span style={{ color: "#C0392B", fontWeight: 600 }}>\u25CF</span> Left leg (passive){" "}
-        <span style={{ color: "#2E8B57", fontWeight: 600 }}>\u25CF</span> Glute activation
+        <span style={{ color: "#2D2D2D", fontWeight: 600 }}>{"\u25CF"}</span> Active{" "}
+        <span style={{ color: "#C0392B", fontWeight: 600 }}>{"\u25CF"}</span> Left leg (passive){" "}
+        <span style={{ color: "#2E8B57", fontWeight: 600 }}>{"\u25CF"}</span> Glute activation
       </div>
 
       <div style={{
@@ -607,7 +607,7 @@ function AnimationGuide() {
           padding: "10px 12px", borderRadius: 8, lineHeight: 1.5,
           borderLeft: "3px solid rgba(139,69,19,0.25)",
         }}>
-          \u26A1 {anim.safety}
+          {"\u26A1"} {anim.safety}
         </div>
       </div>
 
@@ -660,16 +660,16 @@ function Footer() {
 
       <div style={{ fontSize: 11, color: "#999", lineHeight: 1.8 }}>
         <div style={{ marginBottom: 4 }}>
-          Hard constraints: NWB left \u00B7 No active left iliopsoas
+          Hard constraints: NWB left {"\u00B7"} No active left iliopsoas
         </div>
         <div style={{ marginBottom: 8 }}>
-          Soft notes: bilateral FAI/labral tears \u2014 hip flexion past 90\u00B0 at practitioner's discretion
+          Soft notes: bilateral FAI/labral tears {"\u2014"} hip flexion past 90{"\u00B0"} at practitioner's discretion
         </div>
         <div style={{ display: "flex", justifyContent: "center", gap: 16, flexWrap: "wrap" }}>
           <a href="https://nwbfit.vercel.app" target="_blank" rel="noopener noreferrer" style={{
             color: "#A0522D", textDecoration: "none", fontWeight: 600,
           }}>
-            NWB Fit \u2192
+            NWB Fit {"\u2192"}
           </a>
           <a href="https://github.com/karlmarx/nwb-yoga" target="_blank" rel="noopener noreferrer" style={{
             color: "#888", textDecoration: "none",
@@ -717,7 +717,7 @@ export default function App() {
           fontSize: 12, color: "#999", marginTop: 8, lineHeight: 1.5,
           maxWidth: 300, margin: "8px auto 0",
         }}>
-          Left femoral neck stress fracture protocol. Strict NWB \u00B7 Zero left hip flexor activation.
+          Left femoral neck stress fracture protocol. Strict NWB {"\u00B7"} Zero left hip flexor activation.
         </div>
       </div>
 
@@ -782,7 +782,7 @@ export default function App() {
               cursor: "pointer", transition: "all 0.2s",
               fontFamily: "'Newsreader', Georgia, serif",
             }}>
-              Start {tier.name} Practice \u25B6
+              Start {tier.name} Practice {"\u25B6"}
             </button>
           </div>
 
