@@ -1,0 +1,18 @@
+{
+  "name": "NWB Yoga",
+  "short_name": "NWB Yoga",
+  "description": "Non-Weight-Bearing Yoga Practice — Femoral neck stress fracture protocol",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F0EB",
+  "theme_color": "#F5F0EB",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
