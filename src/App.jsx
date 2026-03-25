@@ -369,9 +369,8 @@ function AnimationGuide() {
           display: "flex",
           gap: 6,
           padding: "0 0 12px",
-          overflowX: "auto",
-          WebkitOverflowScrolling: "touch",
-          scrollbarWidth: "none",
+          flexWrap: "wrap",
+          justifyContent: "center",
         }}
       >
         {ANIMATION_ORDER.map((id, i) => (
