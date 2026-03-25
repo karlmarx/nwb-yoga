@@ -711,7 +711,7 @@ export default function App() {
           fontFamily: "'Newsreader', Georgia, serif", fontSize: 32,
           fontWeight: 400, color: "#1a1a1a", margin: 0, lineHeight: 1.1,
         }}>
-          Yoga Nonweightbearing
+          NWB Yoga
         </h1>
         <div style={{
           fontSize: 12, color: "#999", marginTop: 8, lineHeight: 1.5,
