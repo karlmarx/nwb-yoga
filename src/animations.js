@@ -559,36 +559,67 @@ export const ANIMATIONS = {
     name: "Thread the Needle",
     desc: "From tabletop, thread one arm under for deep thoracic rotation. Right knee base, left leg extended.",
     safety: "Pure spinal rotation from a stable base. Zero hip flexor involvement. Excellent for mid-back mobility.",
-    canvasHeight: 220,
+    canvasHeight: 240,
     draw: (ctx, w, h, t) => {
       const s = w / REF_W;
-      const cx = w / 2, ground = h * 0.78;
+      const cx = w / 2, ground = h * 0.80;
       drawGround(ctx, w, ground, s);
-      const hipX = cx + 20 * s, hipY = ground - 70 * s;
-      drawLimb(ctx, hipX, hipY, hipX + 10 * s, ground, "#2D2D2D", s);
-      drawLimb(ctx, hipX + 10 * s, ground, hipX - 5 * s, ground + 2 * s, "#2D2D2D", s);
-      const lKneeX = hipX + 50 * s, lFootX = hipX + 100 * s;
-      drawLimb(ctx, hipX, hipY, lKneeX, ground - 3 * s, "#C0392B", s);
-      drawLimb(ctx, lKneeX, ground - 3 * s, lFootX, ground - 1 * s, "#C0392B", s);
+
+      // Right knee clearly on the ground — thigh vertical, shin forward
+      const rKneeX = cx + 30 * s, rKneeY = ground;
+      const hipX = rKneeX, hipY = ground - 55 * s;
+      // Right thigh (vertical down to knee on ground)
+      drawLimb(ctx, hipX, hipY, rKneeX, rKneeY, "#2D2D2D", s);
+      // Right shin — foot behind on ground
+      drawLimb(ctx, rKneeX, rKneeY, rKneeX - 30 * s, ground, "#2D2D2D", s);
+      drawGroundContact(ctx, rKneeX - 30 * s, ground, rKneeX + 8 * s, s);
+      drawLabel(ctx, rKneeX, ground + 22 * s, "R knee base", "#2D2D2D", s);
+
+      // Left leg — extended back, resting (passive/red)
+      const lKneeX = hipX + 55 * s, lFootX = hipX + 110 * s;
+      drawLimb(ctx, hipX, hipY, lKneeX, ground - 5 * s, "#C0392B", s);
+      drawLimb(ctx, lKneeX, ground - 5 * s, lFootX, ground - 2 * s, "#C0392B", s);
       drawGroundContact(ctx, lKneeX, ground, lFootX, s);
+
+      // Twist animation — 0 = neutral, 1 = fully threaded
       const twist = (Math.sin(t * 0.5) + 1) / 2;
-      const shoulderX = cx - 35 * s;
-      const shoulderY = ground - 75 * s - twist * 15 * s;
+
+      // Torso — nearly horizontal from hips to shoulders (tabletop)
+      const shoulderX = cx - 50 * s;
+      const shoulderY = hipY - 5 * s - twist * 12 * s;
       drawTorso(ctx, shoulderX, shoulderY, hipX, hipY, s);
-      drawHead(ctx, shoulderX - 10 * s - twist * 10 * s, shoulderY - 10 * s + twist * 15 * s, s);
-      drawLimb(ctx, shoulderX + 10 * s, shoulderY + 5 * s, shoulderX + 5 * s, ground, "#2D2D2D", s);
-      const threadX = shoulderX + 30 * s + twist * 40 * s;
-      const threadY = shoulderY + 10 * s + twist * 20 * s;
-      drawLimb(ctx, shoulderX - 5 * s, shoulderY + 5 * s, threadX, threadY, "#A0522D", s);
-      if (twist > 0.3) {
-        ctx.strokeStyle = "rgba(160, 82, 45, 0.3)";
-        ctx.lineWidth = 1.5 * s;
+
+      // Head — turns/drops with the twist
+      const headX = shoulderX - 8 * s - twist * 15 * s;
+      const headY = shoulderY - 5 * s + twist * 18 * s;
+      drawHead(ctx, headX, headY, s);
+
+      // Right (support) arm — straight down to ground from shoulder
+      const rHandX = shoulderX + 15 * s, rHandY = ground;
+      drawLimb(ctx, shoulderX + 10 * s, shoulderY + 3 * s, rHandX, rHandY, "#2D2D2D", s);
+
+      // Threading arm — reaches clearly UNDER torso toward opposite side
+      const threadStartX = shoulderX - 5 * s;
+      const threadStartY = shoulderY + 5 * s;
+      // At rest: arm hangs down; at full twist: reaches far under to the right
+      const threadEndX = shoulderX + 20 * s + twist * 75 * s;
+      const threadEndY = shoulderY + 15 * s + twist * 30 * s;
+      drawLimb(ctx, threadStartX, threadStartY, threadEndX, threadEndY, "#A0522D", s);
+
+      // Rotation arc — thicker and brighter for visibility
+      if (twist > 0.15) {
+        ctx.strokeStyle = `rgba(160, 82, 45, ${0.25 + twist * 0.45})`;
+        ctx.lineWidth = 3 * s;
         ctx.beginPath();
-        ctx.arc(cx - 10 * s, shoulderY + 20 * s, 15 * s, -Math.PI * 0.3, -Math.PI * 0.3 + twist * Math.PI);
+        ctx.arc(cx - 10 * s, shoulderY + 15 * s, 22 * s, -Math.PI * 0.4, -Math.PI * 0.4 + twist * Math.PI * 1.1);
         ctx.stroke();
+        // Arrowhead at the tip of the arc
+        const arcAngle = -Math.PI * 0.4 + twist * Math.PI * 1.1;
+        drawArrowHead(ctx, cx - 10 * s + Math.cos(arcAngle) * 22 * s, shoulderY + 15 * s + Math.sin(arcAngle) * 22 * s, arcAngle + Math.PI / 2, "#A0522D", s);
       }
-      drawLabel(ctx, cx - 60 * s, ground + 25 * s, "Deep thoracic rotation", "#A0522D", s);
-      drawLabel(ctx, lFootX - 25 * s, ground + 25 * s, "L leg rests", "#C0392B", s);
+
+      drawLabel(ctx, cx - 55 * s, ground + 35 * s, "Deep thoracic rotation", "#A0522D", s);
+      drawLabel(ctx, lFootX - 20 * s, ground + 22 * s, "L leg rests", "#C0392B", s);
     }
   },
 
@@ -596,40 +627,72 @@ export const ANIMATIONS = {
     name: "Modified Navasana \u2014 Press Hold",
     desc: "Standard navasana requires bilateral hip flexor \u2014 SKIP IT. This parallette press replacement fires the same abs.",
     safety: "Left hip flexor completely off. Arms and right side do all the work. Legs supported on bolster.",
-    canvasHeight: 220,
+    canvasHeight: 240,
     draw: (ctx, w, h, t) => {
       const s = w / REF_W;
       const cx = w / 2, ground = h * 0.82;
       drawGround(ctx, w, ground, s);
-      const pLeftX = cx - 28 * s, pRightX = cx + 28 * s;
-      const pTopY = ground - 40 * s;
+
+      // Parallettes — wider apart for clarity
+      const pLeftX = cx - 40 * s, pRightX = cx + 40 * s;
+      const pTopY = ground - 48 * s;
       drawParallette(ctx, pLeftX, pTopY, ground, s);
       drawParallette(ctx, pRightX, pTopY, ground, s);
-      ctx.fillStyle = "rgba(139, 115, 85, 0.3)";
+
+      // Bolster — more elongated ellipse, clearly a bolster shape
+      const bolsterCX = cx + 75 * s, bolsterCY = ground - 18 * s;
+      ctx.fillStyle = "rgba(139, 115, 85, 0.35)";
       ctx.beginPath();
-      ctx.ellipse(cx + 60 * s, ground - 15 * s, 35 * s, 12 * s, 0, 0, Math.PI * 2);
+      ctx.ellipse(bolsterCX, bolsterCY, 50 * s, 14 * s, -0.05, 0, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = "rgba(139, 115, 85, 0.5)";
-      ctx.lineWidth = 1 * s;
+      ctx.strokeStyle = "rgba(139, 115, 85, 0.6)";
+      ctx.lineWidth = 1.5 * s;
       ctx.stroke();
-      const hover = Math.sin(t * 0.8) * 2 * s;
-      const hipX = cx, hipY = pTopY - 10 * s + hover;
-      const shoulderX = cx - 5 * s, shoulderY = hipY - 45 * s;
-      drawTorso(ctx, shoulderX, shoulderY, hipX, hipY, s);
-      drawHead(ctx, shoulderX, shoulderY - 22 * s, s);
-      drawLimb(ctx, shoulderX - 10 * s, shoulderY + 5 * s, pLeftX, pTopY, "#2D2D2D", s);
-      drawLimb(ctx, shoulderX + 12 * s, shoulderY + 5 * s, pRightX, pTopY, "#2D2D2D", s);
-      drawLimb(ctx, hipX + 5 * s, hipY, hipX + 35 * s, ground - 25 * s, "#2D2D2D", s);
-      drawLimb(ctx, hipX + 35 * s, ground - 25 * s, cx + 65 * s, ground - 20 * s, "#2D2D2D", s);
-      drawLimb(ctx, hipX - 3 * s, hipY + 3 * s, hipX + 30 * s, ground - 22 * s, "#C0392B", s);
-      drawLimb(ctx, hipX + 30 * s, ground - 22 * s, cx + 55 * s, ground - 17 * s, "#C0392B", s);
-      ctx.fillStyle = "rgba(160, 82, 45, 0.15)";
+      // Bolster highlight for 3D feel
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.25)";
+      ctx.lineWidth = 1 * s;
       ctx.beginPath();
-      ctx.ellipse(cx, hipY - 15 * s, 18 * s, 12 * s, 0, 0, Math.PI * 2);
+      ctx.ellipse(bolsterCX, bolsterCY - 5 * s, 40 * s, 6 * s, -0.05, Math.PI, Math.PI * 2);
+      ctx.stroke();
+
+      // Hover pulse — more dramatic vertical oscillation
+      const hover = Math.sin(t * 1.0) * 4 * s;
+
+      // Hips clearly above the parallettes
+      const hipX = cx, hipY = pTopY - 18 * s + hover;
+      const shoulderX = cx - 5 * s, shoulderY = hipY - 50 * s;
+
+      // Torso
+      drawTorso(ctx, shoulderX, shoulderY, hipX, hipY, s);
+      drawHead(ctx, shoulderX, shoulderY - 24 * s, s);
+
+      // Arms pressing down onto parallettes
+      drawLimb(ctx, shoulderX - 12 * s, shoulderY + 5 * s, pLeftX, pTopY, "#2D2D2D", s);
+      drawLimb(ctx, shoulderX + 14 * s, shoulderY + 5 * s, pRightX, pTopY, "#2D2D2D", s);
+
+      // Right leg (dark/active) — thigh, then shin resting on bolster
+      const rKneeX = hipX + 45 * s, rKneeY = ground - 32 * s;
+      const rFootX = bolsterCX + 20 * s, rFootY = bolsterCY - 14 * s;
+      drawLimb(ctx, hipX + 8 * s, hipY + 2 * s, rKneeX, rKneeY, "#2D2D2D", s);
+      drawLimb(ctx, rKneeX, rKneeY, rFootX, rFootY, "#2D2D2D", s);
+
+      // Left leg (red/passive) — clearly separated, slightly lower on bolster
+      const lKneeX = hipX + 38 * s, lKneeY = ground - 25 * s;
+      const lFootX = bolsterCX + 10 * s, lFootY = bolsterCY - 6 * s;
+      drawLimb(ctx, hipX - 2 * s, hipY + 6 * s, lKneeX, lKneeY, "#C0392B", s);
+      drawLimb(ctx, lKneeX, lKneeY, lFootX, lFootY, "#C0392B", s);
+
+      // Core activation glow around midsection — pulses with hover
+      const glowAlpha = 0.1 + Math.abs(Math.sin(t * 1.0)) * 0.12;
+      ctx.fillStyle = `rgba(160, 82, 45, ${glowAlpha})`;
+      ctx.beginPath();
+      ctx.ellipse(cx, hipY - 18 * s, 22 * s, 14 * s, 0, 0, Math.PI * 2);
       ctx.fill();
-      drawLabel(ctx, cx, hipY - 30 * s, "Core fires", "#A0522D", s);
-      drawLabel(ctx, cx + 70 * s, ground + 18 * s, "Legs on bolster", "#8B7355", s);
-      drawLabel(ctx, cx - 60 * s, ground + 18 * s, "Arms press down", "#2D2D2D", s);
+
+      // Labels — positioned near their referents
+      drawLabel(ctx, hipX + 2 * s, hipY - 35 * s, "Hips hover", "#A0522D", s);
+      drawLabel(ctx, bolsterCX, ground + 20 * s, "Legs rest on bolster", "#8B7355", s);
+      drawLabel(ctx, cx - 55 * s, ground + 20 * s, "Arms press down", "#2D2D2D", s);
     }
   }
 };
