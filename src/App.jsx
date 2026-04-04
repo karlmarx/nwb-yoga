@@ -499,7 +499,7 @@ function Footer() {
         <div style={{ marginBottom: 12 }}>Soft notes: bilateral FAI/labral tears — hip flexion past 90° at practitioner's discretion</div>
       </div>
       <div className="footer-links">
-        <a href="https://nwbfit.vercel.app" target="_blank" rel="noopener noreferrer" className="footer-link footer-link-primary">
+        <a href="https://nfit.93.fyi" target="_blank" rel="noopener noreferrer" className="footer-link footer-link-primary">
           NWB Fit →
         </a>
         <a href="https://github.com/karlmarx/nwb-yoga" target="_blank" rel="noopener noreferrer" className="footer-link footer-link-secondary">

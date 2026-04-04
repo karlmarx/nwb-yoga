@@ -1,4 +1,18 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "nwb-yoga.vercel.app" }],
+      "destination": "https://nyoga.93.fyi/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "nwb-yoga-karlmarx-karlmarxs-projects.vercel.app" }],
+      "destination": "https://nyoga.93.fyi/$1",
+      "permanent": true
+    }
+  ]
 }
